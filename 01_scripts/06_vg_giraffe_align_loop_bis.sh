@@ -30,8 +30,8 @@ echo $id
 echo $ind
 
 # Creating variables for the location of the input files
-fq1=../wgs_sample_preparation_ALL/05_trimmed/${ind}1.trimmed.fastq.gz
-fq2=../wgs_sample_preparation_ALL/05_trimmed/${ind}2.trimmed.fastq.gz
+fq1=../wgs_sample_preparation_ALL/05_trimmed/${ind}_1.trimmed.fastq.gz
+fq2=../wgs_sample_preparation_ALL/05_trimmed/${ind}_2.trimmed.fastq.gz
 
 
 # Mapping the paired reads
