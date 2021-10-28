@@ -1,0 +1,29 @@
+##to add and info field to a vcf
+
+##step 1 export position 
+
+vcf_file=
+
+bcftools query -f '%CHROM\t%POS\n' $vcf_file > 05_svtyper/annot.txt
+
+##step 2 prepare the annotation file
+#in R I added a column with -100,100 and another column with -100,100
+#and reexported with col names, tab sep
+
+annot<-read.table("05_svtyper/annot.txt")
+head(annot)
+annot$CIPOS<-"-100,100"
+annot$CIEND<-"-100,100"
+write.table(annot,"05_svtyper/annot_bis.txt", row.names=F, col.names=F, quote=F, sep="\t")
+
+
+bgzip 05_svtyper/annot_bis.txt
+tabix -s1 -b2 -e2 05_svtyper/annot_bis.txt.gz
+ 
+##step3 prepare the header
+echo -e '##INFO=<ID=CIPOS,Number=2,Type=Integer,Description="added to help Svtyper">' > 05_svtyper/hdr.txt
+echo -e '##INFO=<ID=CIEND,Number=2,Type=Integer,Description="added to help Svtyper">' >> 05_svtyper/hdr.txt
+
+##step4 run bcftools annotate
+#-a is the annotation file (tabix and bgzip, it needs at least CHROM and POS, -h are the header lines to add, -c are the meaning of the column in the annotation file
+bcftools annotate -a 05_svtyper/annot_bis.txt.gz -h 05_svtyper/hdr.txt -c CHROM,POS,INFO/CIPOS,INFO/CIEND $vcf_file >05_svtyper/$vcf_file_annotated.vcf
