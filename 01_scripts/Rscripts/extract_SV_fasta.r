@@ -24,11 +24,11 @@ vcf_info$TYPE[vcf_info$LEN<0]<-"DEL"
 vcf_info$start_bed<-vcf_info$start-1 #because bedfiles are 0-index
 vcf_info$stop_bed<-vcf_info$start_bed+vcf_info$ref_length
 vcf_info$chr_pos<-paste(vcf_info$CHR, vcf_info$start, sep="_")
+vcf_info$max_len<-pmax(vcf_info$alt_length,vcf_info$ref_length)-1
 
 head(vcf_info[,c(1,2,5:11)])
 tail(vcf_info[,c(1,2,5:11)])
 
-vcf_info$max_LEN<-pmax(vcf_info$alt_length,vcf_info$ref_length)-1
 
 nSV=dim(vcf_info)[1]
 fasta_vec<-vector(length=4*nSV)
