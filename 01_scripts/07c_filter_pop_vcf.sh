@@ -45,6 +45,9 @@ head -n 2 "$VCF_BASE"_MISS50_2all.variants.bed
 
 
 #use Eric script (adapted by myself) to extract ref allele at position for dummy vcf
+#this is because ANGSD wants the REF alleles at position X to match the reference genome.
+# This is dummy because obviously our REF/ALT  are not nucleotide but SV sequence
+
 #It requires python 3
 __conda_setup="$('/home/camer78/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
